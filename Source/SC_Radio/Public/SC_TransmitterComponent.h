@@ -14,9 +14,9 @@ class SC_RADIO_API USC_TransmitterComponent : public USceneComponent
 public:
 	USC_TransmitterComponent();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radio")
+	UPROPERTY(BlueprintReadWrite)
 	float Radius = 1000.0f;
 
-	UFUNCTION(BlueprintCallable, Category = "Radio")
+	UFUNCTION(BlueprintCallable)
 	virtual bool SendMessage(USC_RadioMessage* Message);
 };

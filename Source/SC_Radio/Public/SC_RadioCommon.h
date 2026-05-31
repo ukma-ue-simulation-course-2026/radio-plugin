@@ -12,7 +12,7 @@ class SC_RADIO_API USC_RadioMessage : public UObject
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Radio")
+	UFUNCTION(BlueprintCallable)
 	virtual FString ToString() const;
 };
 
@@ -22,7 +22,7 @@ class SC_RADIO_API USC_RadioMessage_String : public USC_RadioMessage
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radio")
+	UPROPERTY(BlueprintReadWrite)
 	FString Data;
 
 	virtual FString ToString() const override;
