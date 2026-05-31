@@ -1,52 +1,48 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SC_RadioWorldSubsystem.h"
-
+#include "SC_RadioEnvironment_InstantBroadcast.h"
 #include "SC_RadioSettings.h"
 
 void USC_RadioWorldSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
-	const USC_RadioSettings* Settings = USC_RadioSettings::Get();
-
-	if (!Settings || !Settings->RadioEnvironmentClass)
+	TSubclassOf<UObject> EnvClass = USC_RadioSettings::Get()->RadioEnvironmentClass;
+	if (!EnvClass)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RadioEnvironmentClass is not configured."));
-		return;
+		EnvClass = USC_RadioEnvironment_InstantBroadcast::StaticClass();
 	}
 
-	// Instantiate the UObject using NewObject with the selected class.
-	RadioEnvironmentImplObj = NewObject<UObject>(this, Settings->RadioEnvironmentClass);
+	UObject* EnvObject = NewObject<UObject>(this, EnvClass);
+	Environment.SetObject(EnvObject);
+	Environment.SetInterface(Cast<ISC_RadioEnvironment>(EnvObject));
 
-	// Verify the interface is actually implemented (defensive check).
-	RadioEnvironmentImpl = Cast<ISC_RadioEnvironment>(RadioEnvironmentImplObj);
-
-	if (!RadioEnvironmentImpl)
+	if (Environment)
 	{
-		UE_LOG(LogTemp, Error, TEXT("RadioEnvironmentClass does not implement ISC_RadioEnvironment."));
-		return;
+		Environment->Initialize(GetWorld());
 	}
-
-	RadioEnvironmentImpl->Initialize(GetWorld());
 }
 
-TStatId USC_RadioWorldSubsystem::GetStatId() const
+void USC_RadioWorldSubsystem::RegisterReceiver(USC_ReceiverComponent* Receiver)
 {
-	RETURN_QUICK_DECLARE_CYCLE_STAT(
-		USC_RadioWorldSubsystem,
-		STATGROUP_Tickables
-	);
+	if (Environment)
+	{
+		Environment->RegisterReceiver(Receiver);
+	}
 }
 
-bool USC_RadioWorldSubsystem::BroadcastMessage(FVector Location, FSC_RadioMessageHandle Message)
+void USC_RadioWorldSubsystem::UnregisterReceiver(USC_ReceiverComponent* Receiver)
 {
-	if (RadioEnvironmentImpl == nullptr)
+	if (Environment)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RadioEnvironmentImpl is not configured."));
-		return false;
+		Environment->UnregisterReceiver(Receiver);
 	}
+}
 
-	return RadioEnvironmentImpl->BroadcastMessage(Location, Message);
+bool USC_RadioWorldSubsystem::BroadcastMessage(const FVector& Location, float Radius, USC_RadioMessage* Message)
+{
+	return Environment
+		? Environment->BroadcastMessage(Location, Radius, Message)
+		: false;
 }

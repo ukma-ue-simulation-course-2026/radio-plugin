@@ -7,25 +7,23 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "SC_RadioWorldSubsystem.generated.h"
 
-/**
- * 
- */
+class USC_ReceiverComponent;
+class USC_RadioMessage;
+
 UCLASS()
-class SC_RADIO_API USC_RadioWorldSubsystem : public UTickableWorldSubsystem
+class SC_RADIO_API USC_RadioWorldSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
 public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	virtual TStatId GetStatId() const override;
-	
-	ISC_RadioEnvironment* RadioEnvironmentImpl;
 
-	UFUNCTION(BlueprintCallable)
-	bool BroadcastMessage(FVector Location, FSC_RadioMessageHandle Message);
+	void RegisterReceiver(USC_ReceiverComponent* Receiver);
+	void UnregisterReceiver(USC_ReceiverComponent* Receiver);
+
+	bool BroadcastMessage(const FVector& Location, float Radius, USC_RadioMessage* Message);
 
 private:
-	// To ensure that GC does not remove the Impl instance
 	UPROPERTY()
-	UObject* RadioEnvironmentImplObj = nullptr;
+	TScriptInterface<ISC_RadioEnvironment> Environment;
 };

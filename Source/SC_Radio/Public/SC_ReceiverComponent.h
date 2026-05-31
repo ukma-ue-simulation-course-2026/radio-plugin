@@ -1,28 +1,28 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "SC_ReceiverComponent.generated.h"
 
+class USC_RadioMessage;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRadioMessageReceived, USC_RadioMessage*, Message);
+
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SC_RADIO_API USC_ReceiverComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
+public:
 	USC_ReceiverComponent();
 
+	// Bind to react to messages
+	UPROPERTY(BlueprintAssignable)
+	FOnRadioMessageReceived OnMessageReceived;
+
+	virtual bool ReceiveMessage(USC_RadioMessage* Message);
+
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

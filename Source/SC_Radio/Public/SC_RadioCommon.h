@@ -3,27 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UObject/Object.h"
 #include "SC_RadioCommon.generated.h"
 
-USTRUCT()
-struct FSC_RadioMessage
+UCLASS(Abstract, BlueprintType, EditInlineNew)
+class SC_RADIO_API USC_RadioMessage : public UObject
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Radio")
+	virtual FString ToString() const;
 };
 
-USTRUCT(BlueprintType)
-struct FSC_RadioMessageHandle
+UCLASS(BlueprintType)
+class SC_RADIO_API USC_RadioMessage_String : public USC_RadioMessage
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
 
-	TSharedPtr<FSC_RadioMessage> Message;
-};
-
-
-USTRUCT()
-struct FSC_RadioMessage_String : public FSC_RadioMessage
-{
-	GENERATED_BODY();
-
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radio")
 	FString Data;
+
+	virtual FString ToString() const override;
 };

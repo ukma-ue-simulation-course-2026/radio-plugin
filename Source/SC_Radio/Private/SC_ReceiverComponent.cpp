@@ -1,34 +1,39 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SC_ReceiverComponent.h"
+#include "SC_RadioWorldSubsystem.h"
 
-// Sets default values for this component's properties
 USC_ReceiverComponent::USC_ReceiverComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
-
-// Called when the game starts
 void USC_ReceiverComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
+	if (UWorld* World = GetWorld())
+	{
+		if (USC_RadioWorldSubsystem* Sub = World->GetSubsystem<USC_RadioWorldSubsystem>())
+		{
+			Sub->RegisterReceiver(this);
+		}
+	}
 }
 
-
-// Called every frame
-void USC_ReceiverComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void USC_ReceiverComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	if (UWorld* World = GetWorld())
+	{
+		if (USC_RadioWorldSubsystem* Sub = World->GetSubsystem<USC_RadioWorldSubsystem>())
+		{
+			Sub->UnregisterReceiver(this);
+		}
+	}
+	Super::EndPlay(EndPlayReason);
 }
 
+bool USC_ReceiverComponent::ReceiveMessage(USC_RadioMessage* Message)
+{
+	OnMessageReceived.Broadcast(Message);
+	return true;
+}

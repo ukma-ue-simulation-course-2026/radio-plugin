@@ -1,27 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SC_TransmitterComponent.h"
+#include "SC_RadioWorldSubsystem.h"
 
-// Sets default values for this component's properties
 USC_TransmitterComponent::USC_TransmitterComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
-
-// Called when the game starts
-void USC_TransmitterComponent::BeginPlay()
+bool USC_TransmitterComponent::SendMessage(USC_RadioMessage* Message)
 {
-	Super::BeginPlay();
-
-	// ...
-	
+	if (UWorld* World = GetWorld())
+	{
+		if (USC_RadioWorldSubsystem* Sub = World->GetSubsystem<USC_RadioWorldSubsystem>())
+		{
+			return Sub->BroadcastMessage(GetComponentLocation(), Radius, Message);
+		}
+	}
+	return false;
 }
-
-
-
