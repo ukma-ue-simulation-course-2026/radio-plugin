@@ -17,7 +17,7 @@ public:
 	virtual void Initialize(UWorld* World) override;
 	virtual void RegisterReceiver(USC_ReceiverComponent* Receiver) override;
 	virtual void UnregisterReceiver(USC_ReceiverComponent* Receiver) override;
-	virtual bool BroadcastMessage(const FVector& Location, float Radius, USC_RadioMessage* Message) override;
+	virtual bool BroadcastMessage(const FSC_RadioBroadcastParams& Params, USC_RadioMessage* Message) override;
 
 private:
 	UPROPERTY()
