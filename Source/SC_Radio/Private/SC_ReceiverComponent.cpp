@@ -32,8 +32,8 @@ void USC_ReceiverComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-bool USC_ReceiverComponent::ReceiveMessage(USC_RadioMessage* Message)
+bool USC_ReceiverComponent::ReceiveMessage(USC_RadioMessage* Message, const FSC_RadioDeliveryInfo& DeliveryInfo)
 {
-	OnMessageReceived.Broadcast(Message);
+	OnMessageReceived.Broadcast(Message, DeliveryInfo);
 	return true;
 }

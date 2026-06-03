@@ -3,13 +3,14 @@
 #include "SC_RadioWorldSubsystem.h"
 #include "SC_RadioEnvironment_InstantBroadcast.h"
 #include "SC_RadioSettings.h"
+#include "Stats/Stats.h"
 
 void USC_RadioWorldSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
 	TSubclassOf<UObject> EnvClass = USC_RadioSettings::Get()->RadioEnvironmentClass;
-	if (!EnvClass)
+	if (!EnvClass || !EnvClass->ImplementsInterface(USC_RadioEnvironment::StaticClass()))
 	{
 		EnvClass = USC_RadioEnvironment_InstantBroadcast::StaticClass();
 	}
@@ -22,6 +23,19 @@ void USC_RadioWorldSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	{
 		Environment->Initialize(GetWorld());
 	}
+}
+
+void USC_RadioWorldSubsystem::Tick(float DeltaTime)
+{
+	if (Environment)
+	{
+		Environment->Tick(DeltaTime);
+	}
+}
+
+TStatId USC_RadioWorldSubsystem::GetStatId() const
+{
+	RETURN_QUICK_DECLARE_CYCLE_STAT(USC_RadioWorldSubsystem, STATGROUP_Tickables);
 }
 
 void USC_RadioWorldSubsystem::RegisterReceiver(USC_ReceiverComponent* Receiver)
@@ -40,9 +54,9 @@ void USC_RadioWorldSubsystem::UnregisterReceiver(USC_ReceiverComponent* Receiver
 	}
 }
 
-bool USC_RadioWorldSubsystem::BroadcastMessage(const FVector& Location, float Radius, USC_RadioMessage* Message)
+bool USC_RadioWorldSubsystem::BroadcastMessage(const FSC_RadioBroadcastParams& Params, USC_RadioMessage* Message)
 {
 	return Environment
-		? Environment->BroadcastMessage(Location, Radius, Message)
+		? Environment->BroadcastMessage(Params, Message)
 		: false;
 }
