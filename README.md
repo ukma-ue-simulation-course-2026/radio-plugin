@@ -26,6 +26,10 @@ Subclass any of these in Blueprint to expose tuned presets (urban, open field, e
 3. Create a message (e.g. `USC_RadioMessage_String`), set its data, and call `SendMessage` on the transmitter.
 4. Choose the propagation model in **Project Settings → Game → SC Radio Settings → Radio Environment Class**. Empty defaults to `InstantBroadcast`.
 
+<img width="1413" height="724" alt="image" src="https://github.com/user-attachments/assets/33139e0c-c7ba-4351-9396-f982ac0cb7c9" />
+<img width="1280" height="702" alt="image" src="https://github.com/user-attachments/assets/dcd72d8e-b364-47c7-99e5-bbe114d5f1fd" />
+
+
 ## Notes
 
 - `DeliveryInfo` reports `RssiDbm`, `Distance`, `Channel`, `bLineOfSightBlocked`, and (for `SharedChannel`) `SinrDb`.
