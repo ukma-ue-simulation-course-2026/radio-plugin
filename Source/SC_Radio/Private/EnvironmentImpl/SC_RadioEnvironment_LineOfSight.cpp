@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SC_RadioEnvironment_LineOfSight.h"
-#include "SC_ReceiverComponent.h"
-#include "SC_TransmitterComponent.h"
+#include "EnvironmentImpl/SC_RadioEnvironment_LineOfSight.h"
+
 #include "Engine/World.h"
 #include "CollisionQueryParams.h"
+#include "ActorComponents/SC_ReceiverComponent.h"
+#include "ActorComponents/SC_TransmitterComponent.h"
 
 void USC_RadioEnvironment_LineOfSight::Initialize(UWorld* World)
 {

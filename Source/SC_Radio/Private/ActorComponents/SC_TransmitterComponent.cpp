@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SC_TransmitterComponent.h"
+#include "ActorComponents/SC_TransmitterComponent.h"
+
 #include "SC_RadioCommon.h"
-#include "SC_RadioWorldSubsystem.h"
+#include "WorldSubsystem/SC_RadioWorldSubsystem.h"
 
 USC_TransmitterComponent::USC_TransmitterComponent()
 {

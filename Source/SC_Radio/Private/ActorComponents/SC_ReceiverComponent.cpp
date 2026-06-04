@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SC_ReceiverComponent.h"
-#include "SC_RadioWorldSubsystem.h"
+#include "ActorComponents/SC_ReceiverComponent.h"
+
+#include "WorldSubsystem/SC_RadioWorldSubsystem.h"
+
 
 USC_ReceiverComponent::USC_ReceiverComponent()
 {

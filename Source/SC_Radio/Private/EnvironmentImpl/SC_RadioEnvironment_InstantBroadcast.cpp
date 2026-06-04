@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SC_RadioEnvironment_InstantBroadcast.h"
-#include "SC_ReceiverComponent.h"
-#include "SC_TransmitterComponent.h"
+#include "EnvironmentImpl/SC_RadioEnvironment_InstantBroadcast.h"
+
+#include "ActorComponents/SC_ReceiverComponent.h"
+#include "ActorComponents/SC_TransmitterComponent.h"
 
 void USC_RadioEnvironment_InstantBroadcast::Initialize(UWorld* World)
 {

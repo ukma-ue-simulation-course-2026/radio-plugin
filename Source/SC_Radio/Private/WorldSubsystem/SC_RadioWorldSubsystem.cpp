@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SC_RadioWorldSubsystem.h"
-#include "SC_RadioEnvironment_InstantBroadcast.h"
+#include "WorldSubsystem/SC_RadioWorldSubsystem.h"
+
 #include "SC_RadioSettings.h"
-#include "Stats/Stats.h"
+#include "EnvironmentImpl/SC_RadioEnvironment_InstantBroadcast.h"
 
 void USC_RadioWorldSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {

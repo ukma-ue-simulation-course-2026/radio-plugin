@@ -38,7 +38,7 @@ public class SC_Radio : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
+				"SlateCore", "AITestSuite",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
